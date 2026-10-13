@@ -1,0 +1,1273 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espacio de Repaso - MOD SERVICIO Y EXPERIENCIA DEL CLIENTE EN HOTELERÍA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ficde-azul-dark: #134252;
+            --ficde-azul-light: #2c5c6e;
+            --ficde-naranja: #e68161;
+            --ficde-naranja-hover: #ff9f85;
+            --tarjeta-bg: #f0f4f5;
+            --input-bg: #e2e8eb;
+            --texto-principal: #0f2d38;
+            --texto-secundario: #4a636e;
+            --verde-exito: #2e7d32;
+            --verde-bg: #c8e6c9;
+            --rojo-error: #c62828;
+            --naranja-bg: #ffe0b2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--ficde-azul-dark) 0%, #0a252e 100%);
+            min-height: 100vh;
+            color: var(--texto-principal);
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-img { height: 50px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
+        .module-tag {
+            background: var(--ficde-naranja);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome-card {
+            background: var(--tarjeta-bg);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-bottom: 6px solid var(--ficde-naranja);
+            margin-bottom: 30px;
+        }
+
+        .welcome-title {
+            color: var(--ficde-azul-dark);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .fede-avatar-large {
+            width: 140px; height: 140px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: var(--ficde-naranja);
+            padding: 5px;
+            box-shadow: 0 10px 25px rgba(230, 129, 97, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+
+        .fede-avatar-large:hover { transform: scale(1.1); }
+
+        .fede-avatar-large img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+        }
+
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .block-card {
+            background: var(--tarjeta-bg);
+            padding: 30px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .block-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--ficde-naranja);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .block-icon {
+            font-size: 3rem; margin-bottom: 15px;
+            background: rgba(19, 66, 82, 0.1);
+            width: 70px; height: 70px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; color: var(--ficde-azul-dark);
+        }
+
+        .block-title { color: var(--ficde-azul-dark); font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+
+        .block-desc { 
+            color: var(--texto-secundario); 
+            font-size: 0.9rem; 
+            line-height: 1.5; 
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .activity-screen {
+            display: none;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .activity-screen.active { display: grid; }
+
+        .tutor-sidebar {
+            background: var(--ficde-azul-light);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: sticky; top: 20px;
+        }
+
+        .tutor-bubble {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: var(--ficde-azul-dark);
+            margin-top: 20px;
+            position: relative;
+            text-align: left;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .tutor-bubble::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            border-width: 0 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(255,255,255,0.95);
+            transform: translateX(-50%);
+        }
+
+        .activity-content {
+            background: var(--tarjeta-bg);
+            padding: 40px;
+            border-radius: 16px;
+            min-height: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .act-badge {
+            background: var(--ficde-naranja);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .act-title { font-size: 1.8rem; color: var(--ficde-azul-dark); margin: 15px 0; font-weight: 800; }
+
+        .act-instruction { 
+            font-size: 1.1rem; 
+            color: var(--texto-secundario); 
+            margin-bottom: 30px; 
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .student-input {
+            width: 100%;
+            height: 150px;
+            padding: 20px;
+            background: var(--input-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: var(--ficde-azul-dark);
+            transition: all 0.3s;
+        }
+
+        .student-input:focus { background: white; border-color: var(--ficde-naranja); outline: none; }
+
+        .fill-input {
+            border: none;
+            border-bottom: 2px solid var(--ficde-naranja);
+            background: transparent;
+            font-weight: 700;
+            color: var(--ficde-azul-dark);
+            text-align: center;
+            width: 200px;
+            font-size: 1.1rem;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 18px;
+            margin-top: 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: linear-gradient(90deg, var(--ficde-naranja), #ff9f85);
+            color: white;
+            box-shadow: 0 6px 20px rgba(230, 129, 97, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-action:hover { transform: translateY(-3px); }
+
+        .btn-back {
+            background: transparent;
+            color: var(--texto-secundario);
+            box-shadow: none;
+            border: 2px solid #ccc;
+            margin-top: 15px;
+        }
+
+        .btn-back:hover { background: #e0e0e0; color: var(--ficde-azul-dark); }
+
+        .traffic-row, .checklist-item {
+            background: white;
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .traffic-row:hover, .checklist-item:hover { border-color: var(--ficde-naranja); transform: translateX(5px); }
+
+        .traffic-btn {
+            width: 35px; height: 35px;
+            border-radius: 50%; border: 2px solid #ddd;
+            cursor: pointer;
+            opacity: 0.3;
+        }
+
+        .traffic-btn.active { opacity: 1; transform: scale(1.2); border-color: var(--ficde-azul-dark); }
+
+        .bg-green { background: #4CAF50; }
+
+        .bg-yellow { background: #FFC107; }
+
+        .bg-red { background: #f44336; }
+
+        .check-box {
+            width: 24px; height: 24px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .checklist-item.selected { border-color: var(--ficde-naranja); background: #fff5f0; }
+
+        .checklist-item.selected .check-box { background: var(--ficde-naranja); border-color: var(--ficde-naranja); color: white; }
+
+        .feedback-area {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            animation: slideUp 0.4s;
+        }
+
+        .feedback-success { background: var(--verde-bg); color: #1b5e20; border-left: 6px solid var(--verde-exito); }
+
+        .feedback-retry { background: var(--naranja-bg); color: #bf360c; border-left: 6px solid #ef6c00; }
+
+        .feedback-fail { background: #cfd8dc; color: #37474f; border-left: 6px solid #455a64; }
+
+        #musicToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--ficde-naranja);
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .activity-screen { grid-template-columns: 1fr; }
+            .tutor-sidebar { display: flex; align-items: center; gap: 20px; }
+            .fede-avatar-large { width: 80px; height: 80px; }
+            .tutor-bubble::after { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- AUDIOS MP3 -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="chill-study-desk-focus-concentration-lofi-451180.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="saludoInicial" preload="auto" src="saludoinicial.mp3"></audio>
+    <audio id="mensaje1Ejercicios" preload="auto" src="mensaje1ejercicios.mp3"></audio>
+    <audio id="mensaje2Ejercicios" preload="auto" src="mensaje2ejercicios.mp3"></audio>
+    <audio id="mensaje3Ejercicios" preload="auto" src="mensaje3ejercicios.mp3"></audio>
+    <audio id="mensaje4Ejercicios" preload="auto" src="mensaje4ejercicios.mp3"></audio>
+    <audio id="respuestaCorrecta" preload="auto" src="respuestacorrecta.mp3"></audio>
+    <audio id="primerError" preload="auto" src="primererror.mp3"></audio>
+    <audio id="segundoError" preload="auto" src="segundoerror.mp3"></audio>
+    <audio id="loLograste" preload="auto" src="lolograste.mp3"></audio>
+
+    <audio id="hoverSound" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.m4a"></audio>
+    <audio id="clickSound" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.m4a"></audio>
+    <audio id="successSound" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.m4a"></audio>
+
+    <button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="logo.png" alt="FICDE" class="logo-img" onerror="this.style.display='none'; document.getElementById('altLogo').style.display='block'">
+                <h2 id="altLogo" style="display:none; color:white; font-weight:800;">FICDE</h2>
+            </div>
+            <div class="module-tag">Módulo: SERVICIO Y EXPERIENCIA DEL CLIENTE EN HOTELERÍA</div>
+        </header>
+
+        <div id="selectionScreen">
+            <div class="welcome-card">
+                <div class="fede-avatar-large" onclick="playAudio('saludoInicial')">
+                    <img src="personaje.gif" alt="Fede">
+                </div>
+                <h1 class="welcome-title">Espacio de Repaso Interactivo</h1>
+                <p style="color: var(--texto-secundario); font-size: 1.1rem;">Donde el conocimiento se convierte en acción</p>
+            </div>
+
+            <div class="blocks-grid">
+                <div class="block-card" onclick="startModule('sintesis')">
+                    <div class="block-icon">🧠</div>
+                    <div class="block-title">Síntesis</div>
+                    <div class="block-desc">Servicio, hospitalidad, características de la prestación y dimensiones funcional, relacional y emocional. Ciclo del servicio, momentos de verdad, viaje del cliente, estándares, protocolos y experiencia del huésped.</div>
+                </div>
+
+                <div class="block-card" onclick="startModule('analisis')">
+                    <div class="block-icon">🔍</div>
+                    <div class="block-title">Análisis Crítico</div>
+                    <div class="block-desc">Complementariedad entre técnica y calidez, autenticidad, perecibilidad, identidad del destino y cultura de servicio. Consistencia, flexibilidad, medición de estándares, mejora continua y proporcionalidad de las compensaciones.</div>
+                </div>
+
+                <div class="block-card" onclick="startModule('escenarios')">
+                    <div class="block-icon">🎬</div>
+                    <div class="block-title">Escenarios</div>
+                    <div class="block-desc">Búsqueda de información, reserva, llegada, estadía, salida y seguimiento posterior del huésped. Reconocimiento de clientes recurrentes, programas de lealtad, recomendaciones y gestión de reseñas.</div>
+                </div>
+
+                <div class="block-card" onclick="startModule('practica')">
+                    <div class="block-icon">⚡</div>
+                    <div class="block-title">Práctica</div>
+                    <div class="block-desc">Secuencia de gestión de quejas, recuperación del servicio, autonomía del personal y protocolos de emergencia. Personalización tecnológica, iniciativas ambientales y uso de testimonios para comunicar experiencias positivas.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="activityScreen" class="activity-screen">
+            <div class="tutor-sidebar">
+                <div class="fede-avatar-large" style="width: 100px; height: 100px; border-color: var(--ficde-naranja);" onclick="replayTutorMessage()">
+                    <img src="personaje.gif" alt="Fede">
+                </div>
+                <div style="flex:1;">
+                    <h3 style="color:var(--ficde-naranja); margin-bottom:5px;">Tutor Fede</h3>
+                    <div class="tutor-bubble" id="tutorMessage"></div>
+                </div>
+            </div>
+
+            <div class="activity-content" id="activityContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== GESTIÓN DE AUDIO MP3 =====
+        const audioFiles = {
+            saludoInicial: document.getElementById('saludoInicial'),
+            mensaje1: document.getElementById('mensaje1Ejercicios'),
+            mensaje2: document.getElementById('mensaje2Ejercicios'),
+            mensaje3: document.getElementById('mensaje3Ejercicios'),
+            mensaje4: document.getElementById('mensaje4Ejercicios'),
+            correcto: document.getElementById('respuestaCorrecta'),
+            error1: document.getElementById('primerError'),
+            error2: document.getElementById('segundoError'),
+            loLograste: document.getElementById('loLograste')
+        };
+
+        function playAudio(audioKey) {
+            if (audioFiles[audioKey]) {
+                audioFiles[audioKey].currentTime = 0;
+                audioFiles[audioKey].play().catch(err => console.log('Error al reproducir audio:', err));
+            }
+        }
+
+        const bgMusic = document.getElementById('bgMusic');
+        const clickSoundEl = document.getElementById('clickSound');
+        const successSoundEl = document.getElementById('successSound');
+        const hoverSoundEl = document.getElementById('hoverSound');
+
+        let musicOn = false;
+        let audioUnlocked = false;
+
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            Object.values(audioFiles).forEach(a => {
+                a.volume = 0;
+                const p = a.play();
+                if (p) p.then(() => { a.pause(); a.currentTime = 0; a.volume = 1; }).catch(()=>{});
+            });
+            audioUnlocked = true;
+        }
+
+        document.addEventListener('pointerdown', unlockAudio, { once: true });
+        document.addEventListener('keydown', unlockAudio, { once: true });
+
+        function toggleMusic() {
+            unlockAudio();
+            if (!musicOn) {
+                bgMusic.volume = 0.1;
+                bgMusic.play().catch(() => {});
+                document.getElementById('musicToggle').innerText = '🎵';
+            } else {
+                bgMusic.pause();
+                document.getElementById('musicToggle').innerText = '🔇';
+            }
+            musicOn = !musicOn;
+        }
+
+        function playSound(type) {
+            if (!audioUnlocked) return;
+            try {
+                if (type === 'click') { clickSoundEl.currentTime=0; clickSoundEl.volume=0.8; clickSoundEl.play().catch(()=>{}); }
+                if (type === 'success') { successSoundEl.currentTime=0; successSoundEl.volume=0.8; successSoundEl.play().catch(()=>{}); }
+                if (type === 'hover') { hoverSoundEl.currentTime=0; hoverSoundEl.volume=0.2; hoverSoundEl.play().catch(()=>{}); }
+            } catch (e) {}
+        }
+
+        function wireUiSounds() {
+            document.querySelectorAll('.block-card, .btn-action, .checklist-item, .traffic-row, .fede-avatar-large').forEach(el => {
+                if (el.dataset.sound === '1') return;
+                el.dataset.sound = '1';
+                el.addEventListener('mouseenter', () => playSound('hover'));
+                el.addEventListener('click', () => playSound('click'));
+            });
+        }
+
+        window.addEventListener('load', wireUiSounds);
+
+        // ===== NORMALIZACIÓN DE TEXTO =====
+        function normalizar(txt) {
+            return txt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function limpiarPuntuacionFinal(txt) {
+            return txt.replace(/[;,.]+\s*$/, '').trim();
+        }
+
+        function limpiarInstruccion(txt) {
+            return txt.replace(/\s*Opciones:\s*.*$/i, '').trim();
+        }
+
+        // ===== ACTIVIDADES =====
+        const modules = {
+            sintesis: [
+                {
+                    type: 'text',
+                    badge: "Fundamentos del servicio",
+                    title: "Finalidad del servicio hotelero",
+                    instruction: "Define el servicio hotelero e indica qué busca resolver mediante una intervención humana o técnica.",
+                    tutor: "Considera qué hace el establecimiento para responder a lo que el cliente requiere.",
+                    explanation: "El servicio reúne acciones destinadas a satisfacer una necesidad o resolver una demanda mediante una intervención humana o técnica.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["accion", "necesi", "demand", "servic", "reune", "destin", "satisf", "resolv", "median", "interv"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'text',
+                    badge: "Hospitalidad",
+                    title: "Relación entre anfitrión y huésped",
+                    instruction: "Explica qué significa recibir con hospitalidad y qué expresa el origen de la palabra hospes.",
+                    tutor: "Revisa por qué el manual presenta la hospitalidad como una relación recíproca.",
+                    explanation: "Hospes designa al huésped y al anfitrión; la hospitalidad implica recibir con apertura, respeto, cortesía y generosidad.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["hospes", "huespe", "anfitr", "design", "hospit", "implic", "recibi", "apertu", "respet", "cortes"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Características del servicio",
+                    title: "Intangibilidad, inseparabilidad y variabilidad",
+                    instruction: "Identifica las tres afirmaciones que describen correctamente características del servicio hotelero.",
+                    items: [
+                        { text: "La intangibilidad significa que el servicio no puede verse ni tocarse antes de recibirlo", correct: true },
+                        { text: "La inseparabilidad implica que el servicio se produce y consume al mismo tiempo", correct: true },
+                        { text: "La variabilidad garantiza que la atención sea idéntica sin importar quién la presta", correct: false },
+                        { text: "La variabilidad indica que el servicio puede cambiar según quién lo presta, cuándo y cómo", correct: true }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Distingue la naturaleza del servicio de los esfuerzos del hotel por mantener una calidad uniforme.",
+                    explanation: "El servicio es intangible, se produce durante su consumo y puede variar según la persona y las condiciones de prestación."
+                },
+                {
+                    type: 'text',
+                    badge: "Participación del huésped",
+                    title: "Papel activo del cliente",
+                    instruction: "Describe cómo interviene el cliente en el proceso de servicio y qué exige esa participación al personal.",
+                    tutor: "Piensa por qué el huésped no es solamente un receptor de lo que ofrece el hotel.",
+                    explanation: "La actitud, las emociones y la colaboración del cliente influyen en el servicio y requieren flexibilidad y comunicación del personal.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["actitu", "emocio", "colabo", "client", "influy", "servic", "requie", "flexib", "comuni", "person"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'blanks',
+                    anyOrder: false,
+                    badge: "Dimensiones del servicio",
+                    title: "Prestación, vínculo e impacto subjetivo",
+                    instruction: "Completar la frase<br><br>La dimensión _________ se refiere a cumplir lo esperado; la __________, a cómo se brinda el servicio; y la _________, al impacto subjetivo en el huésped.",
+                    blanks: ["funcional", "relacional", "emocional"],
+                    tutor: "Recupera los nombres de las tres dimensiones según el resultado, el trato y lo que siente el cliente.",
+                    explanation: "Las dimensiones funcional, relacional y emocional integran el cumplimiento del servicio, la calidad del vínculo y su impacto subjetivo."
+                },
+                {
+                    type: 'text',
+                    badge: "Interacciones con el establecimiento",
+                    title: "Ciclo del servicio y momentos de verdad",
+                    instruction: "Diferencia el ciclo del servicio de un momento de verdad.",
+                    tutor: "Compara el recorrido completo del cliente con un contacto particular que influye en su percepción.",
+                    explanation: "El ciclo del servicio reúne todas las interacciones; un momento de verdad es un contacto donde el cliente forma una impresión.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["ciclo", "servic", "intera", "moment", "verdad", "reune", "contac", "client", "forma", "impres"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Análisis del recorrido",
+                    title: "Utilidad del Customer Journey",
+                    instruction: "Reconoce las tres funciones del Customer Journey mencionadas en el manual.",
+                    items: [
+                        { text: "Representar visualmente los pasos de interacción del cliente", correct: true },
+                        { text: "Identificar puntos críticos y necesidades", correct: true },
+                        { text: "Reconocer emociones y oportunidades de mejora", correct: true },
+                        { text: "Sustituir las interacciones reales por un recorrido obligatorio e invariable", correct: false }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Revisa qué permite observar esta herramienta visual y analítica.",
+                    explanation: "El Customer Journey representa el recorrido y ayuda a identificar puntos críticos, necesidades, emociones y oportunidades de mejora."
+                },
+                {
+                    type: 'text',
+                    badge: "Organización de la atención",
+                    title: "Estándares y protocolos",
+                    instruction: "Compara la función de los estándares de calidad con la de los protocolos de atención.",
+                    tutor: "Distingue el marco que permite evaluar la calidad de los pasos que guían la ejecución de las tareas.",
+                    explanation: "Los estándares fijan el marco de calidad; los protocolos establecen procedimientos para ejecutar las tareas con precisión.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["estand", "protoc", "proced", "fijan", "marco", "calida", "establ", "ejecut", "tareas", "precis"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Percepción del huésped",
+                    title: "Alcance de la experiencia del cliente",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "La experiencia del cliente comprende emociones y percepciones durante su interacción con el hotel", color: "green" },
+                        { text: "La experiencia del cliente se limita al estado físico de la habitación", color: "red" },
+                        { text: "La experiencia depende únicamente del resultado final y excluye cómo se sintió el huésped", color: "red" },
+                        { text: "El primer contacto y el seguimiento posterior también forman parte de la experiencia", color: "green" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Considera el recorrido completo y lo que el huésped siente en cada interacción.",
+                    explanation: "La experiencia reúne emociones, percepciones y valoraciones desde el primer contacto hasta el seguimiento posterior."
+                },
+                {
+                    type: 'text',
+                    badge: "Calidad hotelera",
+                    title: "Relación con las expectativas",
+                    instruction: "Caracteriza la calidad de servicio e identifica tres atributos que permiten valorarla según el manual.",
+                    tutor: "Revisa qué relación existe entre lo que el cliente espera y lo que recibe.",
+                    explanation: "La calidad satisface o supera expectativas y se apoya en atributos como confiabilidad, rapidez y amabilidad.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["expect", "confia", "rapide", "calida", "satisf", "supera", "apoya", "atribu", "amabil", "caract"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                }
+            ],
+            analisis: [
+                {
+                    type: 'text',
+                    badge: "Técnica y trato humano",
+                    title: "Límites de la eficiencia aislada",
+                    instruction: "Analiza por qué cumplir correctamente una tarea no garantiza una experiencia positiva si la atención se brinda con frialdad.",
+                    tutor: "Compara realizar el procedimiento con la forma en que el huésped se siente tratado.",
+                    explanation: "La eficiencia debe acompañarse de calidez, porque la calidad humana del vínculo también influye en la experiencia.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["eficie", "calide", "vincul", "debe", "acompa", "calida", "humana", "influy", "experi", "analiz"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'text',
+                    badge: "Autenticidad del trato",
+                    title: "Hospitalidad y cordialidad superficial",
+                    instruction: "Explica por qué memorizar frases amables no equivale a desarrollar una actitud hospitalaria.",
+                    tutor: "Considera qué diferencia una expresión mecánica de una disposición real a cuidar al huésped.",
+                    explanation: "La hospitalidad requiere autenticidad y compromiso con el bienestar del huésped, más allá de repetir frases aprendidas.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["autent", "compro", "bienes", "hospit", "requie", "huespe", "alla", "repeti", "frases", "aprend"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Coherencia del servicio",
+                    title: "Riesgos de una calidad desigual",
+                    instruction: "Identifica las tres situaciones que muestran inconsistencia en la calidad del servicio.",
+                    items: [
+                        { text: "Un check-in rápido seguido de una habitación sucia", correct: true },
+                        { text: "Una atención cordial en recepción y desinteresada en el restaurante", correct: true },
+                        { text: "Un servicio que mantiene la calidad en los distintos puntos de contacto", correct: false },
+                        { text: "Un desayuno deficiente después de haber generado expectativas de buena calidad", correct: true }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Busca diferencias entre la calidad prometida y la recibida, o entre distintas interacciones.",
+                    explanation: "La calidad desigual entre etapas o servicios debilita la experiencia y contradice las expectativas generadas."
+                },
+                {
+                    type: 'text',
+                    badge: "Oportunidad de la prestación",
+                    title: "Consecuencias de la perecibilidad",
+                    instruction: "Examina por qué prestar un servicio fuera del momento adecuado puede impedir que produzca el mismo efecto en el huésped.",
+                    tutor: "Revisa el ejemplo del desayuno y la posibilidad de conservar un servicio para después.",
+                    explanation: "La perecibilidad implica que el servicio pierde su oportunidad si no se presta en el momento adecuado, alterando su impacto.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["pereci", "moment", "adecua", "impact", "implic", "servic", "pierde", "oportu", "presta", "altera"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'blanks',
+                    anyOrder: false,
+                    badge: "Adaptación de los estándares",
+                    title: "Factores que requieren ajustes",
+                    instruction: "Completar la frase<br><br>Los estándares pueden ajustarse en función del tipo de _______, la _________ o la _______ del destino.",
+                    blanks: ["huésped", "temporada", "cultura"],
+                    tutor: "Recupera los tres factores enumerados en el apartado sobre flexibilidad de los estándares.",
+                    explanation: "Considerar al huésped, la temporada y la cultura permite adaptar los estándares a diferentes situaciones."
+                },
+                {
+                    type: 'text',
+                    badge: "Identidad y profesionalización",
+                    title: "Hospitalidad vinculada con el destino",
+                    instruction: "Fundamenta por qué incorporar estándares profesionales no debería eliminar la autenticidad ni las características culturales del lugar.",
+                    tutor: "Considera cómo combinar una atención organizada con las formas propias de recibir al visitante.",
+                    explanation: "Integrar la identidad del destino con estándares profesionales permite mantener la calidad sin perder autenticidad.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["identi", "destin", "estand", "autent", "integr", "profes", "permit", "manten", "calida", "perder"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Cultura de servicio",
+                    title: "Acciones que fortalecen la hospitalidad",
+                    instruction: "Reconoce las tres acciones que el manual propone para fortalecer una cultura de servicio y hospitalidad.",
+                    items: [
+                        { text: "Formar al personal en habilidades técnicas e inteligencia emocional", correct: true },
+                        { text: "Modelar el trato hospitalario mediante el ejemplo de los líderes", correct: true },
+                        { text: "Reconocer el buen trato y la mejora constante", correct: true },
+                        { text: "Seleccionar personal exclusivamente por su experiencia, sin considerar su actitud", correct: false }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Revisa cómo la formación, el liderazgo y el reconocimiento influyen en la atención cotidiana.",
+                    explanation: "La formación, el liderazgo con el ejemplo y el reconocimiento refuerzan una cultura de servicio hospitalario."
+                },
+                {
+                    type: 'text',
+                    badge: "Evaluación de la calidad",
+                    title: "Necesidad de estándares verificables",
+                    instruction: "Justifica por qué un estándar debe permitir comprobar el desempeño y no limitarse a una expresión imprecisa como «atender bien».",
+                    tutor: "Piensa qué información necesita el hotel para determinar si se cumple lo establecido.",
+                    explanation: "Los estándares medibles y verificables permiten evaluar el desempeño y detectar oportunidades de mejora.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["medibl", "verifi", "desemp", "estand", "permit", "evalua", "detect", "oportu", "mejora", "justif"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Mejora continua",
+                    title: "Interpretación de quejas recurrentes",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "Las quejas repetidas sobre un procedimiento pueden indicar que necesita ajustes", color: "green" },
+                        { text: "Una vez establecido, un estándar no debe revisarse aunque cambien las expectativas", color: "red" },
+                        { text: "Los comentarios de los huéspedes y los resultados operativos aportan información para mejorar", color: "green" },
+                        { text: "La calidad debe considerarse estática para evitar modificaciones en los procesos", color: "red" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Relaciona la información recibida con la evaluación y actualización de los procedimientos.",
+                    explanation: "La mejora continua exige revisar estándares y procedimientos a partir de comentarios y resultados operativos."
+                },
+                {
+                    type: 'text',
+                    badge: "Respuesta a una falla",
+                    title: "Proporcionalidad de la compensación",
+                    instruction: "Evalúa por qué no corresponde ofrecer automáticamente la misma compensación ante problemas de distinta naturaleza.",
+                    tutor: "Compara una mala comida con una noche de descanso afectada y las necesidades que generan.",
+                    explanation: "La compensación debe ser proporcional a la naturaleza del problema y adecuada a la experiencia afectada.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["compen", "natura", "proble", "propor", "debe", "adecua", "experi", "afecta", "evalua", "corres"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                }
+            ],
+            escenarios: [
+                {
+                    type: 'text',
+                    badge: "Primer contacto digital",
+                    title: "Búsqueda de información confiable",
+                    instruction: "Propone tres mejoras para un sitio web hotelero que presenta fotografías poco claras y omite información sobre tarifas y políticas.",
+                    tutor: "Revisa qué necesita conocer el visitante antes de decidir una reserva.",
+                    explanation: "Incorporar fotografías reales e información transparente sobre tarifas y políticas facilita una primera impresión confiable.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["fotogr", "reales", "tarifa", "politi", "incorp", "inform", "transp", "facili", "primer", "impres"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Reserva y contacto previo",
+                    title: "Respuesta a consultas antes de viajar",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "Ante una consulta de reserva, el hotel responde con rapidez y cordialidad", color: "green" },
+                        { text: "El personal evita explicar las condiciones de cancelación para agilizar la venta", color: "red" },
+                        { text: "El hotel proporciona información clara sobre precios y horarios de check-in", color: "green" },
+                        { text: "Las dudas del cliente deben permanecer sin respuesta hasta su llegada", color: "red" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Considera qué comunicación permite confirmar la reserva sin generar confusión o desconfianza.",
+                    explanation: "La reserva requiere respuestas ágiles y cordiales e información transparente sobre precios, horarios y cancelaciones."
+                },
+                {
+                    type: 'text',
+                    badge: "Llegada al establecimiento",
+                    title: "Espera y primera impresión",
+                    instruction: "Sugiere cómo mejorar la llegada de huéspedes que encuentran una larga espera y un registro confuso.",
+                    tutor: "Revisa qué cualidades debe tener el registro y qué herramientas pueden facilitarlo.",
+                    explanation: "Un check-in ágil y sin errores, apoyado en sistemas adecuados, reduce la espera y mejora la claridad del proceso.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["check", "espera", "clarid", "agil", "errore", "apoyad", "sistem", "adecua", "reduce", "mejora"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Atención durante la estadía",
+                    title: "Necesidades detectadas por el personal",
+                    instruction: "Selecciona las tres acciones apropiadas cuando el personal detecta dificultades del huésped durante su estadía.",
+                    items: [
+                        { text: "Ofrecer asistencia antes de que el huésped tenga que solicitarla", correct: true },
+                        { text: "Ignorar la dificultad mientras no exista una queja formal", correct: false },
+                        { text: "Mostrar disposición para resolver el problema", correct: true },
+                        { text: "Mantener el cuidado de la limpieza y el mantenimiento", correct: true }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Distingue una atención proactiva de una respuesta que depende exclusivamente del reclamo.",
+                    explanation: "La estadía requiere atención proactiva, disposición para resolver problemas y cuidado constante de las instalaciones."
+                },
+                {
+                    type: 'text',
+                    badge: "Cierre de la estadía",
+                    title: "Despedida que valora al huésped",
+                    instruction: "Describe cómo debe cerrar la atención un recepcionista cuando el huésped finaliza su estadía.",
+                    tutor: "Considera cómo dejar una última impresión favorable y obtener información sobre lo vivido.",
+                    explanation: "Un agradecimiento sincero, una despedida cordial y la solicitud de comentarios permiten valorar la estadía y conocer la experiencia.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["agrade", "desped", "coment", "sincer", "cordia", "solici", "permit", "valora", "estadi", "conoce"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Continuidad del vínculo",
+                    title: "Contacto después de la salida",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "El hotel puede enviar un agradecimiento personalizado después de la estadía", color: "green" },
+                        { text: "El contacto posterior puede permitir obtener comentarios sobre la experiencia", color: "green" },
+                        { text: "La relación con el huésped debe finalizar necesariamente al entregar la factura", color: "red" },
+                        { text: "Una experiencia negativa deja de requerir atención una vez que el huésped sale del hotel", color: "red" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Revisa qué oportunidades de relación y atención siguen existiendo después del check-out.",
+                    explanation: "El seguimiento posterior mantiene el vínculo, permite obtener comentarios y atender problemas pendientes."
+                },
+                {
+                    type: 'text',
+                    badge: "Reconocimiento del huésped",
+                    title: "Regreso de un cliente habitual",
+                    instruction: "Propone dos gestos mencionados en el manual para recibir a un huésped recurrente y hacerle sentir valorado.",
+                    tutor: "Busca gestos concretos que expresen aprecio por una nueva visita.",
+                    explanation: "Un saludo personalizado y una tarjeta de agradecimiento expresan reconocimiento y hacen sentir valorado al huésped recurrente.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["saludo", "person", "tarjet", "agrade", "recono", "expres", "hacen", "sentir", "valora", "huespe"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Programas de lealtad",
+                    title: "Beneficios para huéspedes recurrentes",
+                    instruction: "Identifica los tres beneficios que el manual menciona para un programa de fidelización.",
+                    items: [
+                        { text: "Descuentos", correct: true },
+                        { text: "Servicios exclusivos", correct: true },
+                        { text: "Puntos de recompensa", correct: true },
+                        { text: "Eliminación de los beneficios cuando el huésped vuelve a reservar", correct: false }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Considera cómo el programa reconoce las visitas reiteradas y motiva el regreso.",
+                    explanation: "Los descuentos, los servicios exclusivos y los puntos de recompensa permiten premiar la fidelidad y motivar nuevas visitas."
+                },
+                {
+                    type: 'text',
+                    badge: "Recomendación del establecimiento",
+                    title: "Huésped como embajador",
+                    instruction: "Explica qué valor tiene para el hotel que un huésped satisfecho recomiende su experiencia a familiares y amigos.",
+                    tutor: "Relaciona el relato del cliente con las decisiones de quienes todavía no conocen el establecimiento.",
+                    explanation: "La recomendación de una experiencia positiva puede influir en otros viajeros y convertir al huésped en un embajador del hotel.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["recome", "experi", "positi", "viajer", "puede", "influi", "conver", "huespe", "embaja", "hotel"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Reputación digital",
+                    title: "Respuesta a comentarios públicos",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "Ante una reseña negativa, el hotel debe descartar cualquier posibilidad de responder", color: "red" },
+                        { text: "Responder rápidamente a reseñas y comentarios forma parte de la gestión de reputación online", color: "green" },
+                        { text: "La transparencia y la disposición para solucionar problemas refuerzan la imagen del hotel", color: "green" },
+                        { text: "Los comentarios publicados por huéspedes no influyen en la percepción de futuros clientes", color: "red" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Considera qué comunica la respuesta del hotel tanto al autor de la reseña como a otros lectores.",
+                    explanation: "Responder con rapidez, transparencia y disposición para solucionar problemas fortalece la reputación online."
+                }
+            ],
+            practica: [
+                {
+                    type: 'checklist',
+                    badge: "Inicio de la gestión de quejas",
+                    title: "Escucha activa del reclamo",
+                    instruction: "Selecciona las tres prácticas que corresponden al primer paso de la gestión de una queja.",
+                    items: [
+                        { text: "Interrumpir para defender al hotel antes de conocer el problema", correct: false },
+                        { text: "Escuchar con atención y sin interrumpir", correct: true },
+                        { text: "Mantener contacto visual", correct: true },
+                        { text: "Evitar distracciones durante la conversación", correct: true }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Revisa cómo demostrar que el problema del huésped se está tomando en serio.",
+                    explanation: "Escuchar sin interrumpir, mantener contacto visual y evitar distracciones ayuda a comprender y valorar el reclamo."
+                },
+                {
+                    type: 'text',
+                    badge: "Comprensión del problema",
+                    title: "Clarificación del reclamo",
+                    instruction: "Describe cómo debe obtener el trabajador los detalles necesarios después de escuchar una queja.",
+                    tutor: "Considera cómo ampliar la información sin adoptar una actitud defensiva.",
+                    explanation: "Las preguntas abiertas y no defensivas permiten aclarar detalles y alcanzar una comprensión completa del problema.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["pregun", "abiert", "detall", "compre", "defens", "permit", "aclara", "alcanz", "comple", "proble"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'blanks',
+                    anyOrder: false,
+                    badge: "Respuesta inicial al incidente",
+                    title: "Responsabilidad y disculpa",
+                    instruction: "Completar la frase<br><br>Tras comprender el problema, el personal debe asumir la _______________ por la experiencia del _______ y ofrecer _________ sinceras.",
+                    blanks: ["responsabilidad", "cliente", "disculpas"],
+                    tutor: "Recupera los términos del tercer paso de la gestión de quejas.",
+                    explanation: "Asumir responsabilidad por la experiencia del cliente y ofrecer disculpas sinceras demuestra que sus preocupaciones son valoradas."
+                },
+                {
+                    type: 'traffic',
+                    badge: "Resolución del reclamo",
+                    title: "Propuesta y ejecución de la solución",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "La solución debe ser adecuada a la magnitud del problema", color: "green" },
+                        { text: "Una vez propuesta una solución, no es necesario implementarla", color: "red" },
+                        { text: "La acción correctiva debe demorarse aunque pueda realizarse de inmediato", color: "red" },
+                        { text: "Actuar con rapidez ayuda a evitar que el huésped se sienta ignorado o frustrado", color: "green" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Distingue prometer una respuesta de llevarla efectivamente a la práctica.",
+                    explanation: "La solución debe corresponder al problema y ejecutarse rápidamente para evitar frustración y recuperar satisfacción."
+                },
+                {
+                    type: 'text',
+                    badge: "Verificación del resultado",
+                    title: "Satisfacción después de resolver",
+                    instruction: "Explica qué debe hacer el personal después de implementar una solución y cómo actuar si resulta insuficiente.",
+                    tutor: "Considera si resolver operativamente el incidente garantiza que el huésped esté conforme.",
+                    explanation: "Debe verificar la satisfacción del huésped y, si la respuesta fue insuficiente, estar preparado para ofrecer soluciones adicionales.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["verifi", "satisf", "soluci", "adicio", "debe", "huespe", "respue", "insufi", "estar", "prepar"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Capacidad de respuesta",
+                    title: "Empoderamiento del personal",
+                    instruction: "Reconoce las tres acciones compatibles con el empoderamiento del personal para recuperar el servicio.",
+                    items: [
+                        { text: "Permitir que empleados autorizados tomen decisiones para resolver problemas", correct: true },
+                        { text: "Impedir cualquier respuesta hasta que el huésped abandone el hotel", correct: false },
+                        { text: "Facultar al personal para ofrecer soluciones adecuadas", correct: true },
+                        { text: "Permitir ofrecer un servicio adicional o descuento cuando se cuenta con autoridad para hacerlo", correct: true }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Relaciona la autonomía autorizada con una respuesta ágil y personalizada.",
+                    explanation: "El personal con autoridad para decidir y ofrecer soluciones puede agilizar la recuperación y personalizar la respuesta."
+                },
+                {
+                    type: 'text',
+                    badge: "Recuperación de la confianza",
+                    title: "Superación de expectativas",
+                    instruction: "Propone la acción adicional que el manual ejemplifica para recuperar el servicio ante una habitación sucia, más allá de corregir la falla.",
+                    tutor: "Revisa el ejemplo que combina una mejora del alojamiento con un gesto escrito.",
+                    explanation: "Ofrecer una habitación mejorada y una nota de disculpas puede superar las expectativas y transformar la experiencia negativa.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["habita", "mejora", "nota", "discul", "expect", "ofrece", "puede", "supera", "transf", "experi"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'traffic',
+                    badge: "Preparación ante imprevistos",
+                    title: "Contenido de los protocolos de emergencia",
+                    instruction: "Marca afirmaciones correctas",
+                    items: [
+                        { text: "Los protocolos de emergencia pueden omitir las responsabilidades del personal", color: "red" },
+                        { text: "Deben incluir rutas de evacuación y puntos de reunión", color: "green" },
+                        { text: "La capacitación regular ayuda a actuar con rapidez y eficiencia en situaciones de crisis", color: "green" },
+                        { text: "Cada trabajador debe improvisar una respuesta sin considerar los procedimientos establecidos", color: "red" }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Revisa qué información y preparación necesita el personal antes de una emergencia.",
+                    explanation: "Los protocolos deben definir rutas, puntos de reunión y responsabilidades, acompañados de capacitación regular."
+                },
+                {
+                    type: 'text',
+                    badge: "Innovación tecnológica",
+                    title: "Personalización de la habitación",
+                    instruction: "Describe cómo una aplicación móvil puede mejorar la comodidad del huésped mediante las funciones mencionadas en el manual.",
+                    tutor: "Considera qué aspectos de la habitación puede controlar el huésped mediante la tecnología.",
+                    explanation: "Las aplicaciones móviles permiten controlar temperatura e iluminación, mejorando la comodidad y personalización de la habitación.",
+                    validation: (raw) => {
+                        const v = normalizar(raw);
+                        const roots = ["aplica", "movile", "temper", "ilumin", "permit", "contro", "mejora", "comodi", "person", "habita"];
+                        return roots.filter(r => v.includes(r)).length >= 2;
+                    }
+                },
+                {
+                    type: 'checklist',
+                    badge: "Innovación ambiental",
+                    title: "Prácticas sostenibles en la experiencia",
+                    instruction: "Identifica las tres iniciativas ambientales mencionadas en el manual para mejorar la experiencia del cliente.",
+                    items: [
+                        { text: "Reducir los plásticos de un solo uso", correct: true },
+                        { text: "Implementar energías renovables", correct: true },
+                        { text: "Gestionar eficientemente el agua", correct: true },
+                        { text: "Incrementar el consumo de recursos sin considerar su impacto", correct: false }
+                    ].sort(() => Math.random() - 0.5),
+                    tutor: "Busca acciones que respondan al interés de los huéspedes por iniciativas ecológicas.",
+                    explanation: "Reducir plásticos, incorporar energías renovables y gestionar el agua eficientemente integra la sostenibilidad en la experiencia del cliente."
+                }
+            ]
+        };
+
+﻿
+        let currentModule = '';
+        let currentIndex = 0;
+        let attemptCount = 0;
+        let lastAudioModule = null;
+
+        // ===== MAPEO DE MÓDULOS A AUDIOS =====
+        const moduloAudioMap = {
+            'sintesis': 'mensaje1',
+            'analisis': 'mensaje2',
+            'escenarios': 'mensaje3',
+            'practica': 'mensaje4'
+        };
+
+        function startModule(id) {
+            playSound('click');
+            currentModule = id;
+            currentIndex = 0;
+            attemptCount = 0;
+            lastAudioModule = id;
+
+            const audioKey = moduloAudioMap[id];
+            if (audioKey) {
+                playAudio(audioKey);
+            }
+
+            document.getElementById('selectionScreen').style.display = 'none';
+            document.getElementById('activityScreen').classList.add('active');
+
+            setTimeout(loadActivity, 300);
+        }
+
+        function loadActivity() {
+            attemptCount = 0;
+
+            if (currentIndex >= modules[currentModule].length) {
+                playAudio('lolograste');
+                playSound('success');
+                alert('¡Excelente! Completaste este bloque de repaso.');
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+                return;
+            }
+
+            const data = modules[currentModule][currentIndex];
+            const container = document.getElementById('activityContainer');
+
+            const msg = `Pregunta ${currentIndex + 1} de ${modules[currentModule].length}: ${data.tutor}`;
+            document.getElementById('tutorMessage').innerText = msg;
+
+            let html = `<span class="act-badge">${data.badge}</span>
+                        <h2 class="act-title">${data.title}</h2>
+                        <p class="act-instruction">${limpiarInstruccion(data.instruction)}</p>`;
+
+            if (data.type === 'text') {
+                html += `<textarea id="txtInput" class="student-input" placeholder="Escribe tu respuesta con tus palabras..."></textarea>`;
+            } else if (data.type === 'blanks') {
+                html += `<div style="font-size:1.2rem; line-height:2.5;">`;
+                data.blanks.forEach((b, i) => {
+                    html += `${i + 1}. <input type="text" class="fill-input" data-ans="${limpiarPuntuacionFinal(b)}"> <br>`;
+                });
+                html += `</div>`;
+            } else if (data.type === 'traffic') {
+                trafficAns = {};
+                data.items.forEach((item, i) => {
+                    const textoLimpio = limpiarPuntuacionFinal(item.text);
+                    html += `<div class="traffic-row" id="row-${i}">
+                                <span>${textoLimpio}</span>
+                                <div style="display:flex; gap:10px;">
+                                    <div class="traffic-btn bg-green" onclick="selTraffic(${i}, 'green')"></div>
+                                    <div class="traffic-btn bg-yellow" onclick="selTraffic(${i}, 'yellow')"></div>
+                                    <div class="traffic-btn bg-red" onclick="selTraffic(${i}, 'red')"></div>
+                                </div>
+                            </div>`;
+                });
+            } else if (data.type === 'checklist') {
+                data.items.forEach((item) => {
+                    const textoLimpio = limpiarPuntuacionFinal(item.text);
+                    html += `<div class="checklist-item" onclick="toggleCheck(this)" data-correct="${item.correct}">
+                                <div class="check-box"></div>
+                                <span>${textoLimpio}</span>
+                            </div>`;
+                });
+            }
+
+            html += `<div id="feedback" class="feedback-area"></div>
+                     <button id="btnCheck" class="btn-action" onclick="validate()">Verificar respuesta</button>
+                     <button class="btn-action btn-back" onclick="location.reload()">Salir al menú</button>`;
+
+            container.innerHTML = html;
+            wireUiSounds();
+        }
+
+        let trafficAns = {};
+
+        function selTraffic(idx, color) {
+            trafficAns[idx] = color;
+            const row = document.getElementById(`row-${idx}`);
+            row.querySelectorAll('.traffic-btn').forEach(b => b.classList.remove('active'));
+            row.querySelector(`.bg-${color}`).classList.add('active');
+            playSound('click');
+        }
+
+        function toggleCheck(el) {
+            el.classList.toggle('selected');
+            el.querySelector('.check-box').innerText = el.classList.contains('selected') ? '✓' : '';
+
+            if (el.classList.contains('selected')) {
+                el.style.borderColor = 'var(--ficde-naranja)';
+                el.querySelector('.check-box').style.background = 'var(--ficde-naranja)';
+                el.querySelector('.check-box').style.borderColor = 'var(--ficde-naranja)';
+                el.querySelector('.check-box').style.color = 'white';
+            } else {
+                el.style.borderColor = 'transparent';
+                el.querySelector('.check-box').style.background = 'transparent';
+                el.querySelector('.check-box').style.borderColor = '#ccc';
+            }
+
+            playSound('click');
+        }
+
+        function validate() {
+            const data = modules[currentModule][currentIndex];
+            const feedback = document.getElementById('feedback');
+            let isCorrect = false;
+
+            if (data.type === 'text') {
+                const val = document.getElementById('txtInput').value;
+                isCorrect = data.validation(val);
+            } else if (data.type === 'blanks') {
+                const inputs = document.querySelectorAll('.fill-input');
+                let hits = 0;
+                let usedAnswers = [];
+                inputs.forEach(inp => {
+                    const v = normalizar(inp.value.trim());
+                    if (v.length > 0) {
+                        if (data.anyOrder) {
+                            const matchedIdx = data.blanks.findIndex((ans, idx) => {
+                                if (usedAnswers.includes(idx)) return false;
+                                const normAns = normalizar(limpiarPuntuacionFinal(ans.trim()));
+                                return (normAns === v || (v.length > 1 && normAns.startsWith(v.slice(0, Math.max(2, Math.min(v.length, normAns.length))))));
+                            });
+                            if (matchedIdx !== -1) {
+                                hits++;
+                                usedAnswers.push(matchedIdx);
+                            }
+                        } else {
+                            const ans = normalizar(limpiarPuntuacionFinal(inp.dataset.ans.trim()));
+                            if (ans === v || (v.length > 1 && ans.startsWith(v.slice(0, Math.max(2, Math.min(v.length, ans.length)))))) {
+                                hits++;
+                            }
+                        }
+                    }
+                });
+                isCorrect = (hits === data.blanks.length);
+            } else if (data.type === 'traffic') {
+                let hits = 0;
+                data.items.forEach((item, i) => { if (trafficAns[i] === item.color) hits++; });
+                isCorrect = (hits === data.items.length);
+            } else if (data.type === 'checklist') {
+                let correct = true;
+                document.querySelectorAll('.checklist-item').forEach(item => {
+                    const sel = item.classList.contains('selected');
+                    const should = item.dataset.correct === 'true';
+                    if (sel !== should) correct = false;
+                });
+                isCorrect = correct;
+            }
+
+            feedback.style.display = 'block';
+
+            if (isCorrect) {
+                playAudio('correcto');
+                playSound('success');
+                feedback.className = 'feedback-area feedback-success';
+                feedback.innerHTML = `<strong>¡Muy bien!</strong><br>${data.explanation}`;
+                document.getElementById('btnCheck').innerText = 'Siguiente pregunta →';
+                document.getElementById('btnCheck').onclick = () => { currentIndex++; loadActivity(); };
+            } else {
+                attemptCount++;
+
+                if (attemptCount < 2) {
+                    playAudio('error1');
+                    feedback.className = 'feedback-area feedback-retry';
+                    feedback.innerHTML = `<strong>Buen intento.</strong> Revisa tu respuesta. Pista: ${data.tutor}`;
+                } else {
+                    playAudio('error2');
+                    feedback.className = 'feedback-area feedback-fail';
+                    feedback.innerHTML = `<strong>Sigamos adelante para aprender juntos:</strong><br>${data.explanation}`;
+                    document.getElementById('btnCheck').innerText = 'Entendido, continuar →';
+                    document.getElementById('btnCheck').onclick = () => { currentIndex++; loadActivity(); };
+                }
+            }
+        }
+
+        function replayTutorMessage() {
+            if (lastAudioModule) {
+                const audioKey = moduloAudioMap[lastAudioModule];
+                if (audioKey) {
+                    playAudio(audioKey);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
